@@ -38,8 +38,8 @@
             <!-- Language Switcher -->
             <LanguageSwitcher />
             
-            <!-- Theme Toggle -->
-            <ThemeToggle />
+            <!-- Simple Light/Dark Theme Toggle -->
+            <SimpleThemeToggle />
 
             <!-- User Menu or Login -->
             <div v-if="status === 'authenticated' && data?.user">
@@ -105,9 +105,10 @@
 </template>
 
 <script setup lang="ts">
-import { User, Settings, LogOut } from 'lucide-vue-next'
-import Button from '~/components/ui/button/Button.vue'
-import Avatar from '~/components/ui/avatar/Avatar.vue'
+import { User, Settings, LogOut } from 'lucide-vue-next';
+import { Button } from '@/components/ui/button';
+import { Avatar } from '@/components/ui/avatar';
+import SimpleThemeToggle from '@/components/common/SimpleThemeToggle.vue'
 import AvatarImage from '~/components/ui/avatar/AvatarImage.vue'
 import AvatarFallback from '~/components/ui/avatar/AvatarFallback.vue'
 import DropdownMenu from '~/components/ui/dropdown-menu/DropdownMenu.vue'
@@ -115,7 +116,8 @@ import DropdownMenuTrigger from '~/components/ui/dropdown-menu/DropdownMenuTrigg
 import DropdownMenuContent from '~/components/ui/dropdown-menu/DropdownMenuContent.vue'
 import DropdownMenuItem from '~/components/ui/dropdown-menu/DropdownMenuItem.vue'
 import DropdownMenuSeparator from '~/components/ui/dropdown-menu/DropdownMenuSeparator.vue'
-import ThemeToggle from '~/components/common/ThemeToggle.vue'
+// import ThemeToggle from '~/components/common/ThemeToggle.vue' // Replaced with ThemeSwitcher
+// ThemeSwitcher is auto-imported by Nuxt
 import LanguageSwitcher from '~/components/common/LanguageSwitcher.vue'
 import Toaster from '~/components/ui/toast/Toaster.vue'
 
