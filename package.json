@@ -1,0 +1,59 @@
+{
+  "name": "nuxt-starter-kit",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A comprehensive Nuxt.js 3 starter kit with TypeScript, Tailwind CSS, Shadcn-vue, i18n, and authentication",
+  "author": "Nuxt Starter Kit",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "type-check": "nuxt typecheck"
+  },
+  "dependencies": {
+    "@nuxt/eslint": "^0.5.7",
+    "@nuxtjs/color-mode": "^3.5.1",
+    "@nuxtjs/i18n": "^9.0.0",
+    "@nuxtjs/tailwindcss": "^6.12.1",
+    "@pinia/nuxt": "^0.5.5",
+    "@vueuse/core": "^11.3.0",
+    "@vueuse/nuxt": "^11.1.0",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "jose": "^5.9.6",
+    "lucide-vue-next": "^0.447.0",
+    "nuxt": "^3.13.2",
+    "pinia": "^2.2.4",
+    "radix-vue": "^1.9.6",
+    "reka-ui": "^2.3.0",
+    "shadcn-nuxt": "^2.2.0",
+    "tailwind-merge": "^2.6.0",
+    "tailwindcss-animate": "^1.0.7",
+    "vue": "^3.5.12",
+    "vue-router": "^4.4.5"
+  },
+  "devDependencies": {
+    "@nuxt/devtools": "^1.5.2",
+    "@nuxtjs/eslint-config-typescript": "^12.1.0",
+    "@types/node": "^22.7.5",
+    "autoprefixer": "^10.4.21",
+    "eslint": "^9.12.0",
+    "postcss": "^8.5.4",
+    "prettier": "^3.3.3",
+    "prettier-plugin-tailwindcss": "^0.6.8",
+    "tailwindcss": "^3.4.0",
+    "typescript": "^5.6.3",
+    "vue-tsc": "^2.2.10"
+  },
+  "packageManager": "pnpm@9.0.0",
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=8.0.0"
+  }
+}

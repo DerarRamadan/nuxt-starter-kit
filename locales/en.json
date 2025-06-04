@@ -1,0 +1,90 @@
+{
+  "common": {
+    "welcome": "Welcome",
+    "home": "Home",
+    "dashboard": "Dashboard",
+    "login": "Login",
+    "register": "Register",
+    "logout": "Logout",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "name": "Name",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "submit": "Submit",
+    "cancel": "Cancel",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "language": "Language",
+    "theme": "Theme",
+    "darkMode": "Dark Mode",
+    "lightMode": "Light Mode",
+    "toggleTheme": "Toggle Theme"
+  },
+  "auth": {
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "signOut": "Sign Out",
+    "forgotPassword": "Forgot Password",
+    "resetPassword": "Reset Password",
+    "dontHaveAccount": "Don't have an account?",
+    "alreadyHaveAccount": "Already have an account?",
+    "resetPasswordInstruction": "Enter your email address and we'll send you a link to reset your password.",
+    "sendResetLink": "Send Reset Link",
+    "backToLogin": "Back to Login",
+    "newPassword": "New Password",
+    "loginSuccess": "Login successful!",
+    "registerSuccess": "Registration successful!",
+    "logoutSuccess": "Logout successful!",
+    "resetLinkSent": "Reset link sent to your email!",
+    "passwordReset": "Password reset successful!",
+    "invalidCredentials": "Invalid email or password",
+    "emailRequired": "Email is required",
+    "passwordRequired": "Password is required",
+    "nameRequired": "Name is required",
+    "passwordMismatch": "Passwords don't match",
+    "emailInvalid": "Please enter a valid email address"
+  },
+  "navigation": {
+    "home": "Home",
+    "dashboard": "Dashboard",
+    "profile": "Profile",
+    "settings": "Settings"
+  },
+  "pages": {
+    "home": {
+      "title": "Modern Web Development Starter",
+      "subtitle": "Built with Nuxt 3, TypeScript, Tailwind CSS, and Shadcn-vue",
+      "description": "A comprehensive starter kit featuring authentication, internationalization, and modern UI components. Get started building your next web application with the best developer experience.",
+      "features": {
+        "title": "Features",
+        "typescript": "TypeScript Support",
+        "typescriptDesc": "Full TypeScript integration with strict mode for better development experience",
+        "authentication": "Authentication",
+        "authenticationDesc": "Complete authentication system with login, register, and password reset",
+        "i18n": "Internationalization",
+        "i18nDesc": "Multi-language support with easy translation management",
+        "ui": "Modern UI Components",
+        "uiDesc": "Beautiful and accessible components built with Shadcn-vue and Tailwind CSS",
+        "darkMode": "Dark Mode",
+        "darkModeDesc": "Built-in dark mode support with smooth transitions",
+        "responsive": "Responsive Design",
+        "responsiveDesc": "Mobile-first responsive design that works on all devices"
+      },
+      "getStarted": "Get Started",
+      "learnMore": "Learn More"
+    },
+    "dashboard": {
+      "title": "Dashboard",
+      "welcome": "Welcome to your dashboard",
+      "userInfo": "User Information",
+      "recentActivity": "Recent Activity",
+      "stats": "Statistics",
+      "projects": "Projects",
+      "tasks": "Tasks",
+      "notifications": "Notifications"
+    }
+  }
+}

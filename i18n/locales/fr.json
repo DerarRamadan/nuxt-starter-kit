@@ -1,0 +1,90 @@
+{
+  "common": {
+    "welcome": "Bienvenue",
+    "home": "Accueil",
+    "dashboard": "Tableau de bord",
+    "login": "Connexion",
+    "register": "S'inscrire",
+    "logout": "Déconnexion",
+    "email": "Email",
+    "password": "Mot de passe",
+    "confirmPassword": "Confirmer le mot de passe",
+    "name": "Nom",
+    "firstName": "Prénom",
+    "lastName": "Nom de famille",
+    "submit": "Soumettre",
+    "cancel": "Annuler",
+    "loading": "Chargement...",
+    "error": "Erreur",
+    "success": "Succès",
+    "language": "Langue",
+    "theme": "Thème",
+    "darkMode": "Mode sombre",
+    "lightMode": "Mode clair",
+    "toggleTheme": "Basculer le thème"
+  },
+  "auth": {
+    "signIn": "Se connecter",
+    "signUp": "S'inscrire",
+    "signOut": "Se déconnecter",
+    "forgotPassword": "Mot de passe oublié",
+    "resetPassword": "Réinitialiser le mot de passe",
+    "dontHaveAccount": "Vous n'avez pas de compte ?",
+    "alreadyHaveAccount": "Vous avez déjà un compte ?",
+    "resetPasswordInstruction": "Entrez votre adresse email et nous vous enverrons un lien pour réinitialiser votre mot de passe.",
+    "sendResetLink": "Envoyer le lien de réinitialisation",
+    "backToLogin": "Retour à la connexion",
+    "newPassword": "Nouveau mot de passe",
+    "loginSuccess": "Connexion réussie !",
+    "registerSuccess": "Inscription réussie !",
+    "logoutSuccess": "Déconnexion réussie !",
+    "resetLinkSent": "Lien de réinitialisation envoyé à votre email !",
+    "passwordReset": "Mot de passe réinitialisé avec succès !",
+    "invalidCredentials": "Email ou mot de passe invalide",
+    "emailRequired": "L'email est requis",
+    "passwordRequired": "Le mot de passe est requis",
+    "nameRequired": "Le nom est requis",
+    "passwordMismatch": "Les mots de passe ne correspondent pas",
+    "emailInvalid": "Veuillez entrer une adresse email valide"
+  },
+  "navigation": {
+    "home": "Accueil",
+    "dashboard": "Tableau de bord",
+    "profile": "Profil",
+    "settings": "Paramètres"
+  },
+  "pages": {
+    "home": {
+      "title": "Kit de démarrage pour le développement web moderne",
+      "subtitle": "Construit avec Nuxt 3, TypeScript, Tailwind CSS et Shadcn-vue",
+      "description": "Un kit de démarrage complet comprenant l'authentification, l'internationalisation et des composants d'interface utilisateur modernes. Commencez à créer votre prochaine application web avec la meilleure expérience de développement.",
+      "features": {
+        "title": "Fonctionnalités",
+        "typescript": "Support TypeScript",
+        "typescriptDesc": "Intégration complète de TypeScript avec mode strict pour une meilleure expérience de développement",
+        "authentication": "Authentification",
+        "authenticationDesc": "Système d'authentification complet avec connexion, inscription et réinitialisation de mot de passe",
+        "i18n": "Internationalisation",
+        "i18nDesc": "Support multilingue avec gestion facile des traductions",
+        "ui": "Composants d'interface modernes",
+        "uiDesc": "Composants beaux et accessibles construits avec Shadcn-vue et Tailwind CSS",
+        "darkMode": "Mode sombre",
+        "darkModeDesc": "Support intégré du mode sombre avec transitions fluides",
+        "responsive": "Design réactif",
+        "responsiveDesc": "Design réactif mobile-first qui fonctionne sur tous les appareils"
+      },
+      "getStarted": "Commencer",
+      "learnMore": "En savoir plus"
+    },
+    "dashboard": {
+      "title": "Tableau de bord",
+      "welcome": "Bienvenue sur votre tableau de bord",
+      "userInfo": "Informations utilisateur",
+      "recentActivity": "Activité récente",
+      "stats": "Statistiques",
+      "projects": "Projets",
+      "tasks": "Tâches",
+      "notifications": "Notifications"
+    }
+  }
+}
