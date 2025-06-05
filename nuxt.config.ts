@@ -41,8 +41,12 @@ export default defineNuxtConfig({
   // Component auto-import configuration
   components: [
     {
-      path: '~/components/common',
+      path: '~/components/common', // For components like common/Button.vue -> <Button />
       prefix: ''
+    },
+    {
+      path: '~/components/auth',    // For components like auth/ClientOnlyAuthenticated.vue -> <AuthClientOnlyAuthenticated />
+      prefix: 'Auth'
     }
   ],
 

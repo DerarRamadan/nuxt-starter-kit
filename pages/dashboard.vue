@@ -3,9 +3,11 @@
     <!-- Header -->
     <div class="mb-8">
       <h1 class="text-3xl font-bold mb-2">{{ $t('pages.dashboard.title') }}</h1>
-      <p class="text-muted-foreground">
-        {{ $t('pages.dashboard.welcome') }}, {{ data?.user?.name || 'User' }}!
-      </p>
+      <AuthClientOnlyAuthenticated>
+        <p class="text-muted-foreground">
+          {{ $t('pages.dashboard.welcome') }}, {{ data?.user?.name || 'User' }}!
+        </p>
+      </AuthClientOnlyAuthenticated>
     </div>
 
     <!-- Stats Grid -->
@@ -79,33 +81,37 @@
           <CardTitle>{{ $t('pages.dashboard.userInfo') }}</CardTitle>
         </CardHeader>
         <CardContent class="space-y-4">
-          <div class="flex items-center space-x-4">
-            <Avatar class="h-12 w-12">
-              <AvatarImage :src="data?.user?.image || ''" :alt="data?.user?.name || ''" />
-              <AvatarFallback>
-                {{ getInitials(data?.user?.name || 'U') }}
-              </AvatarFallback>
-            </Avatar>
-            <div>
-              <p class="font-medium">{{ data?.user?.name }}</p>
-              <p class="text-sm text-muted-foreground">{{ data?.user?.email }}</p>
+          <AuthClientOnlyAuthenticated>
+            <div class="flex items-center space-x-4">
+              <Avatar class="h-12 w-12">
+                <AvatarImage :src="data?.user?.image || ''" :alt="data?.user?.name || ''" />
+                <AvatarFallback>
+                  {{ getInitials(data?.user?.name || 'U') }}
+                </AvatarFallback>
+              </Avatar>
+              <div>
+                <p class="font-medium">{{ data?.user?.name }}</p>
+                <p class="text-sm text-muted-foreground">{{ data?.user?.email }}</p>
+              </div>
             </div>
-          </div>
+          </AuthClientOnlyAuthenticated>
           
-          <div class="space-y-2">
-            <div class="flex justify-between text-sm">
-              <span class="text-muted-foreground">Member since</span>
-              <span>{{ memberSince }}</span>
+          <ClientOnly>
+            <div class="space-y-2">
+              <div class="flex justify-between text-sm">
+                <span class="text-muted-foreground">Member since</span>
+                <span>{{ memberSince }}</span>
+              </div>
+              <div class="flex justify-between text-sm">
+                <span class="text-muted-foreground">Last login</span>
+                <span>{{ lastLogin }}</span>
+              </div>
+              <div class="flex justify-between text-sm">
+                <span class="text-muted-foreground">Status</span>
+                <span class="text-green-600 dark:text-green-400">Active</span>
+              </div>
             </div>
-            <div class="flex justify-between text-sm">
-              <span class="text-muted-foreground">Last login</span>
-              <span>{{ lastLogin }}</span>
-            </div>
-            <div class="flex justify-between text-sm">
-              <span class="text-muted-foreground">Status</span>
-              <span class="text-green-600 dark:text-green-400">Active</span>
-            </div>
-          </div>
+          </ClientOnly>
         </CardContent>
       </Card>
 
@@ -197,7 +203,8 @@ import AvatarFallback from '~/components/ui/avatar/AvatarFallback.vue'
 
 // Protect this page with authentication
 definePageMeta({
-  middleware: 'auth'
+  middleware: 'auth',
+  layout: 'default'
 })
 
 const { data } = useAuth()

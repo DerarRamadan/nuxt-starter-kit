@@ -80,11 +80,15 @@
           <CardContent class="space-y-6">
             <div class="flex items-center justify-between">
               <Label for="theme-mode-select" class="text-base">Theme Mode</Label>
-              <ThemeSwitcher id="theme-mode-select" />
+              <ClientOnly>
+                <ThemeSwitcher id="theme-mode-select" />
+              </ClientOnly>
             </div>
             <div class="flex items-center justify-between">
               <Label for="palette-select" class="text-base">Color Palette</Label>
-              <PaletteSwitcher id="palette-select" />
+              <ClientOnly>
+                <PaletteSwitcher id="palette-select" />
+              </ClientOnly>
             </div>
           </CardContent>
         </Card>

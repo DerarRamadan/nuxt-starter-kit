@@ -12,6 +12,7 @@ interface AuthData {
 export const useAuth = () => {
   const user = useState<User | null>('auth.user', () => null)
   const loading = useState('auth.loading', () => false)
+  const initialized = useState<boolean>('auth.initialized', () => false)
   
   const status = computed(() => {
     if (loading.value) return 'loading'
@@ -75,19 +76,35 @@ export const useAuth = () => {
   
   // Get current session
   const getSession = async () => {
-    if (user.value) return user.value
+    console.log('[Auth] getSession: Start. Current user:', user.value, 'Initialized:', initialized.value);
+    // if (user.value && initialized.value) return user.value; // Potential optimization: only return if already initialized and user exists
     
     loading.value = true
     
     try {
+      if (process.client) {
+        const token = document.cookie.includes('auth-token'); // Simple client-side cookie check
+        console.log('[Auth] getSession: auth-token cookie present on client?', token);
+      }
       const response = await $fetch('/api/auth/me')
+      console.log('[Auth] getSession: API success, user from response:', response.user);
       user.value = response.user
       return response.user
     } catch (error) {
+      console.error('[Auth] getSession: API error or no user', error);
       user.value = null
       return null
     } finally {
       loading.value = false
+      // The 'initialized' flag is crucial for coordinating with route middleware.
+      // It's set to true here after the *first* attempt to get the session (via initialize()),
+      // regardless of whether authentication was successful. 
+      // Middleware waits for this flag before making redirect decisions on the client-side.
+      if (!initialized.value) {
+        initialized.value = true 
+        console.log('[Auth] getSession: Initialized flag SET to true.');
+      }
+      console.log('[Auth] getSession: End. New user state:', user.value, 'Status:', status.value, 'Initialized:', initialized.value);
     }
   }
   
@@ -104,6 +121,7 @@ export const useAuth = () => {
     signIn,
     signOut,
     getSession,
-    initialize
+    initialize,
+    initialized: readonly(initialized)
   }
 }

@@ -23,14 +23,15 @@
             >
               {{ $t('navigation.home') }}
             </NuxtLink>
-            <NuxtLink 
-              v-if="status === 'authenticated'"
-              to="/dashboard" 
-              class="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
-              :class="{ 'text-foreground': $route.path === '/dashboard' }"
-            >
-              {{ $t('navigation.dashboard') }}
-            </NuxtLink>
+            <AuthClientOnlyAuthenticated>
+              <NuxtLink 
+                to="/dashboard" 
+                class="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+                :class="{ 'text-foreground': $route.path === '/dashboard' }"
+              >
+                {{ $t('navigation.dashboard') }}
+              </NuxtLink>
+            </AuthClientOnlyAuthenticated>
           </div>
 
           <!-- Right Side -->
@@ -39,56 +40,61 @@
             <LanguageSwitcher />
             
             <!-- Simple Light/Dark Theme Toggle -->
-            <SimpleThemeToggle />
+            <ClientOnly>
+              <SimpleThemeToggle />
+            </ClientOnly>
 
             <!-- User Menu or Login -->
-            <div v-if="status === 'authenticated' && data?.user">
-              <DropdownMenu>
-                <DropdownMenuTrigger as-child>
-                  <Button variant="ghost" class="relative h-9 w-9 rounded-full">
-                    <Avatar class="h-9 w-9">
-                      <AvatarImage :src="data.user.image || ''" :alt="data.user.name || ''" />
-                      <AvatarFallback>
-                        {{ getInitials(data.user.name || 'U') }}
-                      </AvatarFallback>
-                    </Avatar>
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent class="w-56" align="end">
-                  <div class="flex items-center justify-start gap-2 p-2">
-                    <div class="flex flex-col space-y-1 leading-none">
-                      <p class="font-medium">{{ data.user.name }}</p>
-                      <p class="w-[200px] truncate text-sm text-muted-foreground">
-                        {{ data.user.email }}
-                      </p>
+            <AuthClientOnlyAuthenticated>
+              <div v-if="data?.user"> <!-- data?.user check is still needed as ClientOnlyAuthenticated only checks status -->
+                <DropdownMenu>
+                  <DropdownMenuTrigger as-child>
+                    <Button variant="ghost" class="relative h-9 w-9 rounded-full">
+                      <Avatar class="h-9 w-9">
+                        <AvatarImage :src="data.user.image || ''" :alt="data.user.name || ''" />
+                        <AvatarFallback>
+                          {{ getInitials(data.user.name || 'U') }}
+                        </AvatarFallback>
+                      </Avatar>
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent class="w-56" align="end">
+                    <div class="flex items-center justify-start gap-2 p-2">
+                      <div class="flex flex-col space-y-1 leading-none">
+                        <p class="font-medium">{{ data.user.name }}</p>
+                        <p class="w-[200px] truncate text-sm text-muted-foreground">
+                          {{ data.user.email }}
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem @click="navigateTo('/dashboard')">
-                    <User class="mr-2 h-4 w-4" />
-                    {{ $t('navigation.dashboard') }}
-                  </DropdownMenuItem>
-                  <DropdownMenuItem @click="navigateTo('/profile')">
-                    <Settings class="mr-2 h-4 w-4" />
-                    {{ $t('navigation.profile') }}
-                  </DropdownMenuItem>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem @click="handleLogout">
-                    <LogOut class="mr-2 h-4 w-4" />
-                    {{ $t('auth.signOut') }}
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </div>
-            
-            <div v-else class="flex items-center space-x-2">
-              <Button variant="ghost" size="sm" @click="navigateTo('/auth/login')">
-                {{ $t('auth.signIn') }}
-              </Button>
-              <Button size="sm" @click="navigateTo('/auth/register')">
-                {{ $t('auth.signUp') }}
-              </Button>
-            </div>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem @click="navigateTo('/dashboard')">
+                      <User class="mr-2 h-4 w-4" />
+                      {{ $t('navigation.dashboard') }}
+                    </DropdownMenuItem>
+                    <DropdownMenuItem @click="navigateTo('/profile')">
+                      <Settings class="mr-2 h-4 w-4" />
+                      {{ $t('navigation.profile') }}
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem @click="handleLogout">
+                      <LogOut class="mr-2 h-4 w-4" />
+                      {{ $t('auth.signOut') }}
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
+              <template #fallback>
+                <div class="flex items-center space-x-2">
+                  <Button variant="ghost" size="sm" @click="navigateTo('/auth/login')">
+                    {{ $t('auth.signIn') }}
+                  </Button>
+                  <Button size="sm" @click="navigateTo('/auth/register')">
+                    {{ $t('auth.signUp') }}
+                  </Button>
+                </div>
+              </template>
+            </AuthClientOnlyAuthenticated>
           </div>
         </div>
       </div>

@@ -115,6 +115,7 @@ import Input from '~/components/ui/input/Input.vue'
 import Label from '~/components/ui/label/Label.vue'
 import Card from '~/components/ui/card/Card.vue'
 import CardContent from '~/components/ui/card/CardContent.vue'
+import { nextTick } from 'vue'
 
 // Layout and middleware
 definePageMeta({
@@ -122,7 +123,7 @@ definePageMeta({
   middleware: 'guest'
 })
 
-const { signIn } = useAuth()
+const { signIn, status, data } = useAuth()
 const { toast } = useToast()
 const { t: $t } = useI18n()
 
@@ -139,6 +140,20 @@ const errors = ref({
 })
 
 const loading = ref(false)
+const route = useRoute()
+
+// Watch for authentication status changes.
+// This handles client-side redirection if the user's status changes to 'authenticated'
+// while they are on an auth page (e.g., /login, /register).
+// It complements the 'guest' middleware, especially if auth state is resolved after initial page load
+// or due to actions in another tab.
+watch(status, (newStatus) => {
+  if (newStatus === 'authenticated' && route.path.startsWith('/auth/')) {
+    nextTick(() => {
+          navigateTo('/dashboard', { replace: true })
+        })
+  }
+}, { immediate: true }) // immediate: true to check status on component mount
 
 // Validation functions
 const validateEmail = () => {
