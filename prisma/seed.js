@@ -1,4 +1,6 @@
-const { PrismaClient } = require('@prisma/client/.prisma/client');
+const path = require('node:path');
+const clientPath = path.resolve(__dirname, '../node_modules/@prisma/client/.prisma/client/index.js');
+const { PrismaClient } = require(clientPath);
 const prisma = new PrismaClient();
 
 async function main() {
