@@ -116,7 +116,7 @@
           <span>{{ $t('navigation.home') }}</span>
         </NuxtLink>
 
-        <AuthClientOnlyAuthenticated v-if="status === 'authenticated' || status === 'loading' || (status === 'unauthenticated' && data?.user)" class="flex-1 contents">
+        <AuthClientOnlyAuthenticated>
           <NuxtLink to="/dashboard" class="flex flex-col items-center justify-center text-xs text-muted-foreground hover:text-primary p-2 flex-1" :class="{ 'text-primary': $route.path === '/dashboard' }">
             <LayoutDashboardIcon class="h-5 w-5 mb-0.5" />
             <span>{{ $t('navigation.dashboard') }}</span>
@@ -126,7 +126,7 @@
           </template>
         </AuthClientOnlyAuthenticated>
         
-        <AuthClientOnlyAuthenticated class="flex-1 contents">
+        <AuthClientOnlyAuthenticated>
            <NuxtLink v-if="data?.user" to="/profile" class="flex flex-col items-center justify-center text-xs text-muted-foreground hover:text-primary p-2 flex-1" :class="{ 'text-primary': $route.path === '/profile' }">
             <UserIcon class="h-5 w-5 mb-0.5" />
             <span>{{ $t('navigation.profile') }}</span>
