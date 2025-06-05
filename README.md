@@ -21,6 +21,7 @@ A comprehensive, production-ready Nuxt.js 3 starter kit with TypeScript, Tailwin
 
 - Node.js 18+ 
 - PNPM 8+ (recommended package manager)
+- Docker Desktop (or Docker Engine) - *Required for Prisma/PostgreSQL local development database*
 
 ### Installation
 
@@ -49,6 +50,99 @@ pnpm dev
 ```
 
 5. Open [http://localhost:3000](http://localhost:3000) in your browser
+
+## 💾 Database Setup (Optional - Prisma & PostgreSQL)
+
+This starter kit includes an optional setup for Prisma ORM with a PostgreSQL database running in Docker. This is useful if you plan to build features requiring a database.
+
+### Enabling Prisma
+
+To enable Prisma integration:
+1.  Set `PRISMA_ENABLED=true` in your `.env` file.
+    ```env
+    PRISMA_ENABLED=true
+    ```
+2.  If you change this value while the development server is running, you may need to restart it for the changes to take full effect (especially for server-side Prisma client availability).
+
+If `PRISMA_ENABLED` is set to `false` or is not present, the Prisma-related functionalities and database connections will not be active.
+
+### Environment Configuration for Database
+
+Before starting the database, ensure your `.env` file is configured with the PostgreSQL connection details. Copy from `.env.example` if needed:
+
+```env
+# PostgreSQL Configuration for Docker (used if PRISMA_ENABLED is true)
+POSTGRES_USER=admin
+POSTGRES_PASSWORD=password
+POSTGRES_DB=nuxtstarter
+POSTGRES_PORT=5432 # Ensure this port is free on your host machine
+
+# Prisma Configuration (used if PRISMA_ENABLED is true)
+# This URL is constructed using the PostgreSQL variables above
+DATABASE_URL="postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@localhost:${POSTGRES_PORT}/${POSTGRES_DB}?schema=public"
+```
+
+### Managing the Database Container
+
+-   **Start the database:**
+    ```bash
+    pnpm db:up
+    ```
+    This command starts the PostgreSQL container in detached mode.
+
+-   **View database logs:**
+    ```bash
+    pnpm db:logs
+    ```
+
+-   **Stop the database:**
+    ```bash
+    pnpm db:down
+    ```
+    This stops and removes the container. Your data will persist in the `./.pgdata` directory (which is gitignored).
+
+### Basic Prisma Workflow
+
+Once the database is running and Prisma is enabled:
+
+1.  **Define your schema:** Edit `prisma/schema.prisma` to define your database models.
+2.  **Create and apply migrations:**
+    ```bash
+    pnpm prisma:migrate:dev
+    ```
+    This command creates a new migration based on changes to your schema and applies it to the database. You'll be prompted for a migration name.
+3.  **Generate Prisma Client:** Prisma Client is usually generated automatically when you install dependencies or run a migration. You can also run it manually:
+    ```bash
+    pnpm prisma:generate
+    ```
+4.  **Browse your database (Prisma Studio):**
+    ```bash
+    pnpm prisma:studio
+    ```
+    This opens a web interface to view and manage your data.
+
+5.  **Seed the database (Optional):** To populate your database with initial data, you can run the seed script:
+    ```bash
+    pnpm prisma:db:seed
+    ```
+    This executes the script defined in `prisma/seed.js`. You can customize this file to seed your specific models.
+
+6.  **Using Prisma Client in Nuxt:** You can now import and use the Prisma Client in your Nuxt server routes or API handlers.
+    ```typescript
+    // server/api/some-route.ts
+    import { PrismaClient } from '@prisma/client'
+    const prisma = new PrismaClient()
+
+    export default defineEventHandler(async (event) => {
+      if (process.env.PRISMA_ENABLED !== 'true') {
+        throw createError({ statusCode: 503, statusMessage: 'Database service is not enabled.' })
+      }
+      // Your database logic here
+      // const users = await prisma.user.findMany()
+      // return { users }
+      return { message: 'Prisma is ready (example route).' }
+    })
+    ```
 
 ## 📁 Project Structure
 
@@ -260,6 +354,15 @@ pnpm lint:fix     # Fix ESLint errors
 pnpm format       # Format code with Prettier
 pnpm format:check # Check code formatting
 pnpm type-check   # TypeScript type checking
+
+# Database & Prisma (if PRISMA_ENABLED=true)
+pnpm db:up          # Start PostgreSQL Docker container
+pnpm db:down        # Stop PostgreSQL Docker container
+pnpm db:logs        # View PostgreSQL container logs
+pnpm prisma:generate # Generate Prisma Client
+pnpm prisma:migrate:dev # Create and apply database migrations
+pnpm prisma:studio  # Open Prisma Studio
+pnpm prisma:db:seed # Seed the database with initial data (via prisma/seed.js)
 ```
 
 ### Environment Variables
@@ -272,6 +375,14 @@ NUXT_AUTH_SECRET=your-super-secret-key-here
 
 # Public auth URL
 NUXT_PUBLIC_AUTH_URL=http://localhost:3000/api/auth
+
+# Prisma & Database Configuration
+PRISMA_ENABLED=true                 # Set to true to enable Prisma and database features
+POSTGRES_USER=admin                 # PostgreSQL database user
+POSTGRES_PASSWORD=password          # PostgreSQL database password
+POSTGRES_DB=nuxtstarter             # PostgreSQL database name
+POSTGRES_PORT=5432                  # Port for PostgreSQL container
+DATABASE_URL="postgresql://admin:password@localhost:5432/nuxtstarter?schema=public" # Full DB connection string for Prisma
 ```
 
 ### VS Code Setup
@@ -308,7 +419,7 @@ NUXT_PUBLIC_AUTH_URL=https://yourdomain.com/api/auth
 ### Production Considerations
 
 - **Security**: Change `NUXT_AUTH_SECRET` to a strong, random string
-- **Database**: Replace mock API with real database integration
+- **Database**: If using Prisma, ensure your production environment has a PostgreSQL database. Update `DATABASE_URL` (and related `POSTGRES_*` variables if you use them to construct it) in your production environment variables to point to your production database instance. Do not use the Docker setup for production.
 - **Email**: Configure SMTP for real email sending
 - **Error Tracking**: Add error monitoring (Sentry, etc.)
 - **Analytics**: Add analytics if needed

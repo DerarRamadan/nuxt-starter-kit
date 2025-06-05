@@ -11,7 +11,7 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     '@vueuse/nuxt',
     '@nuxt/eslint',
-    '@nuxtjs/color-mode'
+    '@nuxtjs/color-mode',
   ],
   
   // TypeScript configuration
@@ -74,7 +74,8 @@ export default defineNuxtConfig({
   runtimeConfig: {
     authSecret: process.env.NUXT_AUTH_SECRET || 'your-secret-here-change-this-in-production',
     public: {
-      authUrl: process.env.NUXT_PUBLIC_AUTH_URL || 'http://localhost:3000/api/auth'
+      authUrl: process.env.NUXT_PUBLIC_AUTH_URL || 'http://localhost:3000/api/auth',
+      prismaEnabled: process.env.PRISMA_ENABLED === 'true' // Convert to boolean
     }
   },
 
