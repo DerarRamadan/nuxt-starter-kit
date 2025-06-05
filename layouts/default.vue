@@ -10,11 +10,12 @@
               <div class="h-8 w-8 rounded-lg bg-primary flex items-center justify-center">
                 <span class="text-primary-foreground font-bold text-sm">N</span>
               </div>
-              <span class="font-bold text-xl">{{ $t('pages.home.title') }}</span>
+              <span class="font-bold text-xl hidden md:inline">{{ $t('pages.home.title') }}</span>
+              <span class="font-bold text-lg md:hidden">{{ $t('shortSiteName', 'App') }}</span>
             </NuxtLink>
           </div>
 
-          <!-- Navigation Links -->
+          <!-- Navigation Links (Desktop) -->
           <div class="hidden md:flex items-center space-x-6">
             <NuxtLink 
               to="/" 
@@ -34,8 +35,8 @@
             </AuthClientOnlyAuthenticated>
           </div>
 
-          <!-- Right Side -->
-          <div class="flex items-center space-x-4">
+          <!-- Right Side & Mobile Toggle -->
+          <div class="flex items-center space-x-1 md:space-x-4">
             <!-- Language Switcher -->
             <LanguageSwitcher />
             
@@ -85,7 +86,8 @@
                 </DropdownMenu>
               </div>
               <template #fallback>
-                <div class="flex items-center space-x-2">
+                <!-- Desktop Sign In/Up Buttons -->
+                <div class="hidden md:flex items-center space-x-2">
                   <Button variant="ghost" size="sm" @click="navigateTo('/auth/login')">
                     {{ $t('auth.signIn') }}
                   </Button>
@@ -95,15 +97,56 @@
                 </div>
               </template>
             </AuthClientOnlyAuthenticated>
+
           </div>
         </div>
       </div>
     </nav>
 
     <!-- Main Content -->
-    <main>
+    <main class="pb-20 md:pb-0"> <!-- Add padding-bottom for mobile to avoid overlap with bottom nav -->
       <slot />
     </main>
+
+    <!-- Bottom Navigation (Mobile Only) -->
+    <nav class="fixed bottom-0 left-0 right-0 z-40 h-16 bg-background border-t md:hidden">
+      <div class="flex justify-around items-center h-full">
+        <NuxtLink to="/" class="flex flex-col items-center justify-center text-xs text-muted-foreground hover:text-primary p-2 flex-1" :class="{ 'text-primary': $route.path === '/' }">
+          <HomeIcon class="h-5 w-5 mb-0.5" />
+          <span>{{ $t('navigation.home') }}</span>
+        </NuxtLink>
+
+        <AuthClientOnlyAuthenticated v-if="status === 'authenticated' || status === 'loading' || (status === 'unauthenticated' && data?.user)" class="flex-1 contents">
+          <NuxtLink to="/dashboard" class="flex flex-col items-center justify-center text-xs text-muted-foreground hover:text-primary p-2 flex-1" :class="{ 'text-primary': $route.path === '/dashboard' }">
+            <LayoutDashboardIcon class="h-5 w-5 mb-0.5" />
+            <span>{{ $t('navigation.dashboard') }}</span>
+          </NuxtLink>
+          <template #fallback>
+            <div class="flex-1"></div> <!-- Placeholder to maintain layout -->
+          </template>
+        </AuthClientOnlyAuthenticated>
+        
+        <AuthClientOnlyAuthenticated class="flex-1 contents">
+           <NuxtLink v-if="data?.user" to="/profile" class="flex flex-col items-center justify-center text-xs text-muted-foreground hover:text-primary p-2 flex-1" :class="{ 'text-primary': $route.path === '/profile' }">
+            <UserIcon class="h-5 w-5 mb-0.5" />
+            <span>{{ $t('navigation.profile') }}</span>
+          </NuxtLink>
+          <template #fallback>
+             <!-- For unauthenticated users, if profile is not shown, we might show login or just a placeholder -->
+            <NuxtLink to="/auth/login" class="flex flex-col items-center justify-center text-xs text-muted-foreground hover:text-primary p-2 flex-1">
+              <UserIcon class="h-5 w-5 mb-0.5" /> <!-- Or a generic 'More' or 'Account' icon -->
+              <span>{{ $t('auth.signIn') }}</span>
+            </NuxtLink>
+          </template>
+          <template #loading>
+            <div class="flex flex-col items-center justify-center text-xs text-muted-foreground p-2 flex-1 opacity-50">
+              <UserIcon class="h-5 w-5 mb-0.5 animate-pulse" />
+              <span class="h-3 w-10 animate-pulse bg-muted rounded-sm"></span>
+            </div>
+          </template>
+        </AuthClientOnlyAuthenticated>
+      </div>
+    </nav>
 
     <!-- Toast Notifications -->
     <Toaster />
@@ -111,7 +154,7 @@
 </template>
 
 <script setup lang="ts">
-import { User, Settings, LogOut } from 'lucide-vue-next';
+import { User, Settings, LogOut, Home as HomeIcon, LayoutDashboard as LayoutDashboardIcon, UserCircle2 as UserIcon, LogInIcon } from 'lucide-vue-next';
 import { Button } from '@/components/ui/button';
 import { Avatar } from '@/components/ui/avatar';
 import SimpleThemeToggle from '@/components/common/SimpleThemeToggle.vue'
@@ -130,6 +173,7 @@ import Toaster from '~/components/ui/toast/Toaster.vue'
 const { data, status, signOut } = useAuth()
 const { toast } = useToast()
 const { t: $t } = useI18n()
+
 
 const getInitials = (name: string) => {
   return name
